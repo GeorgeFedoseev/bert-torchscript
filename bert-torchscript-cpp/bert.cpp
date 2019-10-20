@@ -17,16 +17,26 @@ int main(int argc, const char* argv[]) {
   catch (const c10::Error& e) {
     std::cerr << "error loading the model\n";
     return -1;
+  } 
+  
+  auto methods = module.get_methods();
+  std::cout << "Methods" << std::endl;
+  for(const torch::jit::script::Method method : methods){
+    std::cout << "\t"+method.name() << std::endl;    
   }
 
+
+  // Run Forward
   std::vector<torch::jit::IValue> inputs;  
-  inputs.push_back(torch::ones({1, 13}, torch::dtype(torch::kLong)));
-  inputs.push_back(torch::zeros({1, 13}, torch::dtype(torch::kLong)));
+  inputs.push_back(torch::ones({1, 1}, torch::dtype(torch::kLong)));
+  inputs.push_back(torch::zeros({1, 1}, torch::dtype(torch::kLong)));
+
+  
 
   auto output = module.forward(inputs).toTuple();
+  
   auto tensor = output->elements()[0].toTensor();
-    
   std::cout << tensor << '\n';
 
-  std::cout << "ok\n";
+  std::cout << "Done\n";
 }
