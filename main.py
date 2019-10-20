@@ -1,6 +1,10 @@
 from transformers import BertModel, BertTokenizer, BertConfig
 import torch
 
+from pytext.torchscript import ScriptBERTTensorizer
+from pytext.utils.torch import BPE
+
+
 enc = BertTokenizer.from_pretrained("bert-base-uncased")
 
 # Tokenizing input text
@@ -43,4 +47,10 @@ torch.jit.save(traced_model, "traced_bert.pt")
 print("saved .pt")
 
 
-# print(traced_model(tokens_tensor, segments_tensors))
+# TODO: export tensoriser
+#  - based on vocab file create Vocabulary object
+#  - write tokenizer based on vocab file
+#  - export torchscript_tensonizer to file
+#  - call it from C++
+
+# torchscript_tensorizer = ScriptBERTTensorizer()

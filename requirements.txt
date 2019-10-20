@@ -1,3 +1,2 @@
-tensorflow
 torch
-pytext-nlp
+transformers
